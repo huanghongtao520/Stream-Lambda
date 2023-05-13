@@ -2,22 +2,35 @@ package com.huang;
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamDemo {
-    public static void main(String[] args) {
-        Optional<Author> author = getAuthor();
-        author.ifPresent(author1 -> System.out.println(author1));
+    public static void main(String[] args) throws Throwable {
+        List<Author> authors = getAuthors();\
+        authors.parallelStream()
+        Stream<Integer> integerStream = Stream.of(1, 2, 3, 4, 5,6,7,8,9,10);
+
+        Optional<Integer> reduce =
+                integerStream.
+                        // 并行流
+                        .parallel()
+                        // peek方法相当于打断点操作，测试
+                        .peek(new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) {
+                                System.out.println("当前元素"+integer+","+Thread.currentThread().getName());
+                            }
+                        })
+                        .filter(num -> num > 5)
+                        .reduce(Integer::sum);
+        reduce.ifPresent(System.out::println);
 
     }
     public static Optional<Author> getAuthor(){
-        return Optional.of(new Author(1L, "huang", "ewrw", 22, null));
+        return Optional.ofNullable(null);
     }
 
     /**
