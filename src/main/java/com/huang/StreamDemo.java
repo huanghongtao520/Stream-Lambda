@@ -10,30 +10,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@SuppressWarnings("ALL")
 public class StreamDemo {
     public static void main(String[] args) {
-        List<Author> authors=getAuthors();
-        // 传统方法
-        //System.out.println(authors);
+        Optional<Author> author = getAuthor();
+        author.ifPresent(author1 -> System.out.println(author1));
 
-        // stream流形式
-        authors.stream() // 把集合转换为流
-                .distinct() //去除重复
-                .filter(new Predicate<Author>() {
-                    @Override
-                    public boolean test(Author author) {
-                        return author.getAge()<18;
-                    }
-                })
-                .forEach(new Consumer<Author>() {
-                    @Override
-                    public void accept(Author author) {
-                        System.out.println(author.getName());
-                    }
-                });
-
-
+    }
+    public static Optional<Author> getAuthor(){
+        return Optional.of(new Author(1L, "huang", "ewrw", 22, null));
     }
 
     /**
@@ -335,7 +319,8 @@ public class StreamDemo {
     private static List<Author> getAuthors() {
         Author author1 = new Author(1L, "杨杰炜", "my introduction 1", 18, null);
         Author author2 = new Author(2L, "yjw", "my introduction 2", 19, null);
-        Author author3 = new Author(3L, "yjw", "my introduction 3", 14, null);
+        Author author6 = new Author(5L, "wtf", "my introduction 5", 12, null);
+
         Author author4 = new Author(4L, "wdt", "my introduction 4", 29, null);
         Author author5 = new Author(5L, "wtf", "my introduction 5", 12, null);
 
@@ -344,24 +329,24 @@ public class StreamDemo {
         List<Book> books3 = new ArrayList<>();
 
         // 上面是作者和书
-        books1.add(new Book(1L, "类别,分类啊", "书名1", 45D, "这是简介哦"));
-        books1.add(new Book(2L, "高效", "书名2", 84D, "这是简介哦"));
-        books1.add(new Book(3L, "喜剧", "书名3", 83D, "这是简介哦"));
+        books1.add(new Book(1L, "爱情", "书名1", 45D, "这是简介哦"));
+        books1.add(new Book(2L, "科幻", "书名2", 84D, "这是简介哦"));
+        books1.add(new Book(3L, "哲学", "书名3", 83D, "这是简介哦"));
 
-        books2.add(new Book(5L, "天啊", "书名4", 65D, "这是简介哦"));
-        books2.add(new Book(6L, "高效", "书名5", 89D, "这是简介哦"));
+        books2.add(new Book(5L, "喜剧", "书名4", 65D, "这是简介哦"));
+        books2.add(new Book(6L, "喜剧", "书名5", 89D, "这是简介哦"));
 
-        books3.add(new Book(7L, "久啊", "书名6", 45D, "这是简介哦"));
-        books3.add(new Book(8L, "高效", "书名7", 44D, "这是简介哦"));
-        books3.add(new Book(9L, "喜剧", "书名8", 81D, "这是简介哦"));
+        books3.add(new Book(7L, "军事", "书名6", 45D, "这是简介哦"));
+        books3.add(new Book(8L, "政治", "书名7", 44D, "这是简介哦"));
+        books3.add(new Book(9L, "散文", "书名8", 81D, "这是简介哦"));
 
         author1.setBookList(books1);
         author2.setBookList(books2);
-        author3.setBookList(books3);
         author4.setBookList(books3);
         author5.setBookList(books2);
+        author6.setBookList(books2);
 
-        return new ArrayList<>(Arrays.asList(author1, author2, author3, author4, author5));
+        return new ArrayList<>(Arrays.asList(author1, author6, author4, author5,author2));
     }
 
     private static void test() {
